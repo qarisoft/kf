@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->boolean('is_active')->default(false);
             $table->foreignIdFor(Vendor::class)->constrained('vendors');
-            $table->foreignIdFor(ServiceCategory::class,'category_id');
+            $table->foreignIdFor(ServiceCategory::class,'category_id')->nullable();
             $table->foreignIdFor(ServiceCategory::class,'sub_category_id')->nullable();
             $table->foreignId('service_content_id')->nullable();
             $table->timestamps();

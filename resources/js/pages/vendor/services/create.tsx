@@ -5,18 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { useLang } from '@/hooks/use-lang';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem } from '@/types';
+import type { BreadcrumbItem, CategoryObject, ServiceContentObject } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
-import { HTMLInputTypeAttribute, MouseEventHandler, useCallback, useRef, useState } from 'react';
-import {
-    DropdownMenu, DropdownMenuCheckboxItem,
-    DropdownMenuContent,
-    DropdownMenuLabel, DropdownMenuSeparator,
-    DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
+import { HTMLInputTypeAttribute, MouseEventHandler, useRef, useState } from 'react';
 // import { nullNav } from '@/config';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -29,81 +22,46 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/vendor/services/create',
     },
 ];
-type Service = {
-    id: number;
-    is_active: boolean;
-    content: {
-        id: number;
-        title:string,
-        description:string,
-        main_image_url:File | null,
-        hours:number,
-        price:number,
-        instructions:string,
-        timeUnit:TimeUnits,
-        youtube_url:string|undefined
 
-
-    };
-};
-
-type Category={
-    id:number,
-    name:string
-}
+type TimeUnits = 'hour' | 'day' | 'week' | 'month';
 type ServiceForm = {
     title: string;
     tags: number[];
+    service_category_id: number | undefined;
     description: string;
     main_image_url?: File | null;
     price: number;
-    hours: number;
+    time: number;
+    time_unit: TimeUnits;
     instructions: string;
-    timeUnit: TimeUnits;
     youtube_url: string;
 };
 
-export default function CreateService({ categories }: { categories:Category[],service?: Service }) {
-    const { setData, data,post,errors } = useForm<ServiceForm>({
-        title: '',
-        description: '',
+export default function CreateService({ categories, service }: { categories: CategoryObject[]; service?: ServiceContentObject }) {
+    const { setData, data, post, errors } = useForm<ServiceForm>({
+        title: service?.title ?? '',
+        description: service?.description ?? '',
+        service_category_id: 1,
         tags: [],
         main_image_url: null,
-        hours: 1,
+        time: 1,
+        time_unit: 'day',
         price: 0,
-        instructions: '',
-        timeUnit: 'hour',
+        instructions: service?.instructions ?? '',
         youtube_url: '',
     });
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
 
-    const addCategory = useCallback(
-        (id_: number, a: boolean) => {
-            const id = id_;
-            if (a) {
-                if (data.tags.includes(id)) {
-                    return;
-                }
-                setData('tags', [...data.tags, id]);
-            } else {
-                setData(
-                    'tags',
-                    data.tags.filter((i) => i != id),
-                );
-            }
-        },
-        [data, setData],
-    );
-    const onSubmit = (e:{preventDefault:()=>void})=>{
-        e.preventDefault()
-        post(route('vendor.services.store'))
-    }
+    const onSubmit = (e: { preventDefault: () => void }) => {
+        e.preventDefault();
+        console.log(data);
+        post(route('vendor.services.store'));
+    };
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Services Edit" />
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl">
                 <form onSubmit={onSubmit}>
-
                     <Card>
                         <CardContent>
                             <CardHeader>
@@ -113,45 +71,33 @@ export default function CreateService({ categories }: { categories:Category[],se
 
                             <div className="min-h-32">
                                 <div className="my-2">{t('Image')}</div>
-                                <ImageUpload
-                                    onChange={(v:File) => setData('main_image_url', v)}
-                                    error={errors.main_image_url}
-                                />
+                                <ImageUpload onChange={(v: File) => setData('main_image_url', v)} error={errors.main_image_url} />
                             </div>
                             <div className="h-4"></div>
                             <div className="flex flex-wrap gap-4">
                                 <div className="">
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild>
-                                            <Button variant="outline" className="">
-                                                {t('Chose Category')}
-                                            </Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent className="w-56">
-                                            <DropdownMenuLabel>Tags</DropdownMenuLabel>
-                                            {categories.map((s) => (
-                                                <div className="" key={s.id}>
-                                                    <DropdownMenuSeparator />
-                                                    <DropdownMenuCheckboxItem
-                                                        onSelect={(a) => {
-                                                            a.preventDefault();
-                                                        }}
-                                                        checked={data.tags.includes(s.id)}
-                                                        onCheckedChange={(a) => {
-                                                            addCategory(s.id, a);
-                                                        }}
-                                                    >
-                                                        {s.name}
-                                                    </DropdownMenuCheckboxItem>
-                                                </div>
+                                    <Select
+                                        defaultValue={'1'}
+                                        dir={'rtl'}
+                                        required
+                                        onValueChange={(v) => {
+                                            if (v) {
+                                                setData('service_category_id', Number(v));
+                                            }
+                                        }}
+                                    >
+                                        <SelectTrigger>
+                                            <SelectValue placeholder={t('Chose Category')} />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {categories.map((cat) => (
+                                                <SelectItem value={cat.id.toString()} key={cat.id}>
+                                                    {cat.name}
+                                                </SelectItem>
                                             ))}
-                                        </DropdownMenuContent>
-                                    </DropdownMenu>
-                                </div>
-                                <div className="flex flex-wrap items-center gap-2">
-                                    {data.tags.map((tag) => (
-                                        <Badge className={'h-fit'}>{categories.find((i) => i.id == tag)?.name}</Badge>
-                                    ))}
+                                        </SelectContent>
+                                    </Select>
+                                    <InputError message={errors.service_category_id} />
                                 </div>
                             </div>
                             <div className="h-2"></div>
@@ -194,10 +140,10 @@ export default function CreateService({ categories }: { categories:Category[],se
                                     iType={'textarea'}
                                 />
                                 <WorkDurationSelect
-                                    timeValue={data.hours}
-                                    unitValue={data.timeUnit}
-                                    onUnitChange={(v) => setData('timeUnit', v)}
-                                    onTimeChange={(v) => setData('hours', v)}
+                                    timeValue={data.time}
+                                    unitValue={data.time_unit}
+                                    onUnitChange={(v) => setData('time_unit', v)}
+                                    onTimeChange={(v) => setData('time', v)}
                                 />
 
                                 <FormField
@@ -217,18 +163,17 @@ export default function CreateService({ categories }: { categories:Category[],se
                         <CardFooter className={'gap-2'}>
                             <Button
                             // onClick={onSubmit}
-                            >{t('Save')}</Button>
+                            >
+                                {t('Save')}
+                            </Button>
                             <Button variant={'ghost'}>{t('Cancel')}</Button>
                         </CardFooter>
                     </Card>
                 </form>
-
             </div>
         </AppLayout>
     );
 }
-
-type TimeUnits = 'hour' | 'day' | 'week' | 'month';
 
 function WorkDurationSelect({
     onTimeChange,
@@ -241,7 +186,7 @@ function WorkDurationSelect({
     timeValue?: number;
     unitValue: TimeUnits;
 }) {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
         <div className="">
             <div className="h-4"></div>
@@ -276,30 +221,29 @@ function WorkDurationSelect({
     );
 }
 
-function ImageUpload({ value, onChange,error }: { value?: string; onChange: (v: File) => void,error?:string }) {
-    const [fileImg, setFile] = useState<string|undefined>(undefined);
+function ImageUpload({ value, onChange, error }: { value?: string; onChange: (v: File) => void; error?: string }) {
+    const [fileImg, setFile] = useState<string | undefined>(undefined);
 
     const handleChange: React.ChangeEventHandler<HTMLInputElement> = (e) => {
         const a = e.target.files;
         if (a?.length && a?.length > 0) {
             // onChange(a[0]);
             onChange(a[0]);
-            setFile(URL.createObjectURL(a[0]))
+            setFile(URL.createObjectURL(a[0]));
         }
     };
 
     const ref = useRef<HTMLInputElement>(null);
-    const onClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    const onClick: MouseEventHandler<HTMLButtonElement|HTMLDivElement> = (e) => {
         e.preventDefault();
         e.stopPropagation();
         ref.current?.click();
     };
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
-
         <div>
-            <div className="bg-accent relative h-full w-full rounded-lg shadow-lg drop-shadow-lg">
-                <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+            <div className="relative h-full w-full rounded-lg bg-accent shadow-lg drop-shadow-lg select-none "  onClick={()=>ref.current?.click()}>
+                <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center ">
                     <input type={'file'} ref={ref} className={'w-0'} onChange={handleChange} />
                     <Button variant={'ghost'} className="bg-accent opacity-25" onClick={onClick}>
                         {(value?.length ?? 0) > 0 ? t('edit') : t('chose')}
@@ -307,10 +251,8 @@ function ImageUpload({ value, onChange,error }: { value?: string; onChange: (v: 
                 </div>
 
                 {fileImg ? <img src={fileImg} alt={'preview'} className={'h-full w-full rounded-xl object-fill'} /> : <div className={'h-40'} />}
-
-
             </div>
-            <InputError  className={'pt-2'} message={error} />
+            <InputError className={'pt-2'} message={error} />
         </div>
     );
 }

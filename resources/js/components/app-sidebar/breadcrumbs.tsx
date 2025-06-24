@@ -2,10 +2,10 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { type BreadcrumbItem as BreadcrumbItemType } from '@/types';
 import { Link } from '@inertiajs/react';
 import { Fragment } from 'react';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 export function Breadcrumbs({ breadcrumbs }: { breadcrumbs: BreadcrumbItemType[] }) {
-    const {t} = useLaravelReactI18n()
+    const {t} = useLang()
     return (
         <>
             {breadcrumbs.length > 0 && (

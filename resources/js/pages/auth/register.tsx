@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { WithGoogle } from '@/components/with-google';
 import { User } from '@/types';
 
@@ -25,8 +25,8 @@ export default function Register({fake}:{fake:User}) {
 
     const {props} = usePage()
     console.log(props.errors);
-    
-    const {t}=useLaravelReactI18n()
+
+    const {t}=useLang()
     const registerData={
         first_name: fake.first_name,
         last_name: fake.last_name,

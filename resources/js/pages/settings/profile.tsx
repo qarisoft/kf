@@ -8,7 +8,7 @@ import SettingsLayout from '@/layouts/settings-layout';
 import { type BreadcrumbItem, type SharedData } from '@/types';
 import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { FormEventHandler, useRef } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Edit } from 'lucide-react';
@@ -26,7 +26,7 @@ type ProfileForm = {
     photo:string | null
 };
 export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: boolean; status?: string }) {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     const { auth } = usePage<SharedData>().props;
 
     const { data, setData, patch, errors, processing, recentlySuccessful,progress } = useForm<Required<ProfileForm>>({

@@ -17,8 +17,9 @@ class ServiceContentFactory extends Factory
     public function definition(): array
     {
         return [
-            'title'=>fake()->title(),
+            'title'=>fake()->realText(40),
             'description'=>fake()->text(),
+            'instructions'=>fake()->text(),
         ];
     }
 }

@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useInitials } from '@/hooks/use-initials';
 import { ColumnDef } from '@tanstack/react-table';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { CheckCircle2Icon, LoaderIcon, MoreHorizontal } from 'lucide-react';
 // import { Checkbox } from '@/components/ui/checkbox';
 const breadcrumbs: BreadcrumbItem[] = [
@@ -31,11 +31,11 @@ type Vendor = WithTimeStamp<VendorObject & { user: UserWithProfile } & { special
 function getVendorStatus(v: Vendor): boolean {
     const profile = v.user.profile;
 
-    console.log(profile);
+    // console.log(profile);
     // if (!profile) {
     //     return false
     // }
-    
+
     if (profile && profile.phone_number !=null) {
         if (profile.id_photos?.length) {
             return true;
@@ -45,7 +45,7 @@ function getVendorStatus(v: Vendor): boolean {
 }
 
 export default function VendorsPage({ vendors }: ShareData & { vendors: PaginatedData<Vendor> }) {
-    console.log(vendors.data[0]);
+    console.log(vendors.data);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
@@ -76,7 +76,7 @@ const VendorInfo = ({ user }: { user: User }) => {
     );
 };
 const Translated = ({ value }: { value: string }) => {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return <div className="ps-8">{t(value)}</div>;
 };
 
@@ -114,7 +114,7 @@ const columns: ColumnDef<Vendor>[] = [
         accessorKey: 'specialities',
         header: () => <Translated value={'specialities'} />,
         cell: ({ row }) => {
-            return <div className="text-center">{row.original.specialities[0].name}</div>;
+            return <div className="text-center">{row.original.specialities[0]?.name}</div>;
         },
     },
     {

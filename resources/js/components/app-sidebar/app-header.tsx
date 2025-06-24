@@ -15,7 +15,7 @@ import { BookOpen, Folder, LayoutGrid, Menu, Search } from 'lucide-react';
 import AppLogo from './app-logo';
 import AppLogoIcon from './app-logo-icon';
 import { Breadcrumbs } from './breadcrumbs';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 const mainNavItems: NavItem[] = [
     {
@@ -45,7 +45,7 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ breadcrumbs = [] }: AppHeaderProps) {
-    const {t}=useLaravelReactI18n()
+    const {t}=useLang()
     const page = usePage<SharedData>();
     const { auth } = page.props;
     const getInitials = useInitials();

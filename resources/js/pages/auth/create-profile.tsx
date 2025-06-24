@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { Badge } from '@/components/ui/badge';
 import {
     DropdownMenu,
@@ -26,7 +26,7 @@ type ProfileForm = {
 type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 export default function CreateProfile({ specialities }: { specialities: SpecialityObject[] }) {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     const [open, setOpen] = useState(false);
     // console.log(specialities);
 

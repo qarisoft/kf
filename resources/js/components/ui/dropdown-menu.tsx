@@ -5,14 +5,14 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu"
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-import { useLaravelReactI18n } from "laravel-react-i18n"
+import { useLang } from '@/hooks/use-lang';
 
 function DropdownMenu({
   ...props
 }: React.ComponentProps<typeof DropdownMenuPrimitive.Root>) {
 
-    const {currentLocale}=useLaravelReactI18n()
-    const dir:'rtl'|'ltr' = currentLocale() ==='ar'?'rtl':'ltr'
+    const {dir}=useLang()
+    // const dir:'rtl'|'ltr' = currentLocale() ==='ar'?'rtl':'ltr'
   return <DropdownMenuPrimitive.Root dir={dir}   data-slot="dropdown-menu" {...props} />
 }
 

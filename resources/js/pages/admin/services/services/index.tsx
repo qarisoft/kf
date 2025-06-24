@@ -45,10 +45,24 @@ function getColumns(): ColumnDef<Service3>[] {
                 return <div className="text-right">{formatted}</div>;
             },
         },
-        { k: 'main_image_url',h:'image' },
+        { k: 'main_image_url',h:'image',f:(row:Row<Service3>)=>{
+            const preview = row.original.media[0]?.preview_url
+
+            return <div>
+                {preview&&(
+
+
+                <img
+                    width={100}
+                    src={row.original.media[0]?.preview_url??''}
+                    alt={'image'} />
+                )}
+
+            </div>
+            }},
         { k: 'hours' },
         { k: 'youtube_url',h:'video' },
-        { k: 'instructions' },
+        // { k: 'instructions' },
     ].map((k) => makeColumn(k));
 }
 
@@ -63,7 +77,7 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
     const pageData: PaginatedData<Service3> = {
         ...services,
         data: services.data.map((s) => {
-            const content = s.last_content[0];
+            const content = s.content;
             return {
                 ...s,
                 title: content.title,
@@ -75,11 +89,12 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
                 id: content.id,
                 youtube_url: content.youtube_url,
                 instructions: content.instructions,
+                media:content.media
             };
         }),
     };
 
-    console.log(pageData);
+    // console.log(pageData.data[0].content);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />

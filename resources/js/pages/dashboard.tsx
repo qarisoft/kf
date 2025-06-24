@@ -8,7 +8,7 @@ import { Head, usePage } from '@inertiajs/react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -35,7 +35,7 @@ export default function Dashboard() {
 }
 
 function SectionCards() {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
         <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 gap-4 *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs lg:grid-cols-3 @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
             <Card className="@container/card">
@@ -80,7 +80,7 @@ function SectionCards() {
                 </CardHeader>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm">
                     <div className="line-clamp-1 flex gap-2 font-medium">
-                        Strong user retention 
+                        Strong user retention
                         {/* <IconTrendingUp className="size-4" /> */}
                     </div>
                     <div className="text-muted-foreground">Engagement exceed targets</div>
@@ -91,7 +91,7 @@ function SectionCards() {
 }
 
 function BuyingCardSection({ title, value }: { title: string; value: string | number }) {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
         <CardTitle className="font-semibold tabular-nums @[250px]/card:text-sm">
             <div className="text-center">{t(title)}</div>

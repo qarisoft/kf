@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Vendor;
 use App\Http\Controllers\Controller;
 use App\Models\Service\Service;
 use App\Models\Service\ServiceCategory;
+use App\Models\Service\ServiceContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -31,7 +32,8 @@ class ServicesController extends Controller
     public function create(): Response
     {
         return Inertia::render($this->path.'/create', [
-            'categories'=>ServiceCategory::all()
+            'categories'=>ServiceCategory::all(),
+            'service'=>ServiceContent::factory()->make()
         ]);
     }
 
@@ -40,35 +42,53 @@ class ServicesController extends Controller
      */
     public function store(Request $request)
     {
-//        title: '',
-//        description: '',
-//        tags: [],
-//        main_image_url: null,
-//        hours: 1,
-//        price: 0,
-//        instructions: '',
-//        timeUnit: 'hour',
-//        youtube_url: '',
+
         $request->validate([
-            'main_image_url'=>'required|image',
-            'tags'=>'required|array',
+//            'main_image_url'=>'required|image',
+            'service_category_id'=>'required|exists:service_categories,id',
             'title'=>'required|min:8',
             'description'=>'required',
             'price'=>'required',
-            'hours'=>'required',
+            'time'=>'required',
+            'time_unit'=>'required',
             'instructions'=>'required',
         ]);
-        $a = $request->file('main_image_url');
-        $imageName = time().'.'.$request->main_image_url->extension();
-        $request->main_image_url->move(public_path('images'), $imageName);
+
         $user = $request->user();
+
+//        dd($user->vendor);
+
+        $imageName = time().'.'.$request->main_image_url?->extension();
+
+        $request->main_image_url->move(public_path('images'), $imageName);
+
+
+
         if ($user->vendor()->exists()) {
 
-        $user->vendor()->services()->create([
-            'main_image_url'=>'images/'.$imageName,
+            $s=$user->vendor->services()->create([
+                'category_id'=>$request->service_category_id
+            ]);
 
-        ]);
+            $c=ServiceContent::create([
+//                'main_image_url'=>$imageName,
+                'title'=>$request->title,
+                'service_id'=>$s->id,
+                'price'=>$request->price,
+                'time'=>$request->time,
+                'time_unit'=>$request->time_unit,
+                'instructions'=>$request->instructions,
+                'youtube_url'=>$request->youtube_url,
+                'description'=>$request->description
+            ]);
+            $c->addMedia(public_path('images/'.$imageName))->toMediaCollection('services');
+            $s->update(['service_content_id'=>$c->id]);
+
+            return redirect()->route('vendor.services.show',['service'=>$s]);
+
         }
+
+
 
 
 

@@ -14,14 +14,13 @@ import {
     DialogContent,
     DialogDescription,
     DialogFooter,
-    DialogHeader,
     DialogTitle,
     DialogTrigger
 } from '@/components/ui/dialog';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 export default function DeleteUser() {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     const passwordInput = useRef<HTMLInputElement>(null);
     const {
         data,

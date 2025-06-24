@@ -1,7 +1,7 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+// import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, Category, PaginatedData, PublishRequestData, WithTimeStamp } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { type BreadcrumbItem, PaginatedData, PublishRequestData, WithTimeStamp } from '@/types';
+import { Head} from '@inertiajs/react';
 import {
     Table,
     TableBody,

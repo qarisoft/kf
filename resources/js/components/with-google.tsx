@@ -1,8 +1,8 @@
 import { Button } from '@/components/ui/button';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 export function WithGoogle({title}:{title:string}) {
-    const {t}=useLaravelReactI18n()
+    const {t}=useLang()
     return (
         <>
             <div className="flex flex-col gap-4">

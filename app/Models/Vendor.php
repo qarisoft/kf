@@ -16,6 +16,9 @@ class Vendor extends Model
     use HasFactory,BelongsToUser;
 
 
+//    protected $with=['user'];
+
+
     public function specialities(): BelongsToMany
     {
         return $this->belongsToMany(Specialization::class,'specialization_vendor');

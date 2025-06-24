@@ -6,13 +6,12 @@ import { SideBarProps2 } from '@/types';
 import { Link } from '@inertiajs/react';
 // import { BookOpen, Folder, LayoutGrid } from 'lucide-react';
 import AppLogo from './app-logo';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 
 
 export function AppSidebar({mainNavItems,footerNavItems}:SideBarProps2) {
-    const {currentLocale} = useLaravelReactI18n()
-    const side    :'left'|'right' = currentLocale()==='ar'?'right':'left'
+    const {side} = useLang()
     return (
         <Sidebar collapsible="icon" side={side} variant="inset" >
             <SidebarHeader>

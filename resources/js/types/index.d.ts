@@ -129,6 +129,24 @@ export interface ProfileObject {
 
 export type User = WithTimeStamp<UserObject>;
 
+export type Media={
+    id: 1,
+    model_type: string,
+    model_id: number,
+    uuid: string,
+    collection_name: string,
+    name: string,
+    file_name: string,
+    mime_type: string,
+    disk: string,
+    conversions_disk: string,
+    size: number,
+    manipulations: [],
+    custom_properties: [],
+    original_url:string | undefined,
+    preview_url:string | undefined
+}
+
 interface VendorObject {
     id: number;
     user_id: number;
@@ -145,7 +163,7 @@ export interface SpecialityObject {
     };
 }
 
-export interface ServiceContent {
+export interface ServiceContentObj {
     id: 8;
     title: string;
     service_id: number;
@@ -155,11 +173,15 @@ export interface ServiceContent {
     instructions: string | null;
     price: number;
     hours: number;
+    media:Media[]
 }
+export type ServiceContent = WithTimeStamp<ServiceContentObj>
 
+export type Category=WithTimeStamp<CategoryObject>
 export interface ServiceObj {
     id: number;
-    last_content: WithTimeStamp<ServiceContent>[];
+    content: ServiceContent;
+    category: Category;
     is_active: boolean;
     vendor_id: number;
     category_id: number;
@@ -167,5 +189,13 @@ export interface ServiceObj {
     service_content_id: string | null;
 }
 
+export type Service=WithTimeStamp<ServiceObj>
+export type PublishRequestData={
+    id?:number
+}
 export type SideBarProps = { mainNavItems: NavItem[]; footerNavItems: NavItem[] };
 export type SideBarProps2 = { mainNavItems: { items: NavItem[]; title: string }[]; footerNavItems: NavItem[] };
+
+
+
+

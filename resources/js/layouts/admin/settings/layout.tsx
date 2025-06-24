@@ -5,10 +5,10 @@ import { cn } from '@/lib/utils';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 export default function SettingsLayout({ children ,navItems}: PropsWithChildren<{navItems:NavItem[]}>) {
-    const {t}  =useLaravelReactI18n()
+    const {t}  =useLang()
     // When server-side rendering, we only render the layout on the client...
     if (typeof window === 'undefined') {
         return null;

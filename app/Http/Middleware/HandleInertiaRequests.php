@@ -38,7 +38,8 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
-
+        $string = file_get_contents(lang_path() . '/' . 'ar.json');
+        $json_a = json_decode($string);
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -46,6 +47,8 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'locale' => app()->currentLocale(),
+            'lang_json'=>$json_a,
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

@@ -1,10 +1,10 @@
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
 
     return (
         <>

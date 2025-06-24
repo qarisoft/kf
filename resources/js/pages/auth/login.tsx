@@ -9,7 +9,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import AuthLayout from '@/layouts/auth-layout';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { WithGoogle } from '@/components/with-google';
 
 type LoginForm = {
@@ -25,7 +25,7 @@ interface LoginProps {
 
 export default function Login({ status, canResetPassword }: LoginProps) {
 
-    const {t} = useLaravelReactI18n()
+    const {t} = useLang()
 
     const { data, setData, post, processing, errors, reset } = useForm<Required<LoginForm>>({
         email: '',

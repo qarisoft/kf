@@ -22,7 +22,9 @@ return new class extends Migration
             $table->text('youtube_url')->nullable();
             $table->text('instructions')->nullable();
             $table->double('price')->default(0);
-            $table->double('hours')->default(0);
+            $table->double('time')->default(0);
+            $table->string('time_unit')->default('hour');
+//            hour day week month
             $table->timestamps();
         });
 

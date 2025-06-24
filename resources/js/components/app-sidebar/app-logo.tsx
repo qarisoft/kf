@@ -1,8 +1,8 @@
 import AppLogoIcon from './app-logo-icon';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 
 export default function AppLogo() {
-    const {t}=useLaravelReactI18n()
+    const {t}=useLang()
     return (
         <>
             <div className="bg-sidebar-primary text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-md">

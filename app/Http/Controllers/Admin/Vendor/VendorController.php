@@ -25,7 +25,6 @@ class VendorController extends Controller
                 ->with('user.profile')
                 ->withCount('services')
                 ->with('specialities')
-
                 ->paginate($perPage,page:$page)
         ]);
     }

@@ -9,11 +9,11 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card"
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { Button } from '@/components/ui/button';
 
 export default function SectionCards() {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
         <div className="*:data-[slot=card]:from-primary/5 *:data-[slot=card]:to-card dark:*:data-[slot=card]:bg-card grid grid-cols-1 lg:grid-cols-3 gap-4  *:data-[slot=card]:bg-gradient-to-t *:data-[slot=card]:shadow-xs @xl/main:grid-cols-2 @5xl/main:grid-cols-4">
             <Card className="@container/card">
@@ -89,7 +89,7 @@ export default function SectionCards() {
 
 function BuyingCardSection({title,value}:{title:string,value:string|number}) {
 
-    const {t}= useLaravelReactI18n()
+    const {t}= useLang()
     return (
         <CardTitle className="font-semibold tabular-nums @[250px]/card:text-sm">
             <div className="text-center">{t(title)}</div>

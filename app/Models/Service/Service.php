@@ -18,7 +18,8 @@ class Service extends Model
 
     protected $with=['content'];
     protected $fillable = [
-        'service_content_id'
+        'service_content_id',
+        'category_id'
     ];
     protected $casts = [
         'is_active' => 'boolean',

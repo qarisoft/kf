@@ -17,7 +17,7 @@ class ServiceController extends Controller
     public function index(): Response
     {
         return Inertia::render(self::$path.'/index', [
-            'services' => Service::query()->with('lastContent')->paginate()
+            'services' => $this->paginate(Service::query())
         ]);
     }
 

@@ -6,9 +6,9 @@ import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import AppLayout from '@/layouts/app-layout';
-import type { BreadcrumbItem, PaginatedData } from '@/types';
+import type { BreadcrumbItem } from '@/types';
 import { Head, useForm } from '@inertiajs/react';
-import { useLaravelReactI18n } from 'laravel-react-i18n';
+import { useLang } from '@/hooks/use-lang';
 import { HTMLInputTypeAttribute, MouseEventHandler, useCallback, useRef } from 'react';
 import {
     DropdownMenu, DropdownMenuCheckboxItem,
@@ -70,7 +70,7 @@ export default function EditServices({ service,categories }: { categories:Catego
         timeUnit: 'hour',
         youtube_url: service.content.youtube_url??'',
     });
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
 
     const addCategory = useCallback(
         (id_: number, a: boolean) => {
@@ -228,7 +228,7 @@ function WorkDurationSelect({
     timeValue?: number;
     unitValue: TimeUnits;
 }) {
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
         <div className="">
             <div className="h-4"></div>
@@ -280,7 +280,7 @@ function ImageUpload({ value, onChange }: { value?: string; onChange: (v: string
         e.stopPropagation();
         ref.current?.click();
     };
-    const { t } = useLaravelReactI18n();
+    const { t } = useLang();
     return (
         <div className="bg-accent relative h-full w-full rounded-lg shadow-lg drop-shadow-lg">
             <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
