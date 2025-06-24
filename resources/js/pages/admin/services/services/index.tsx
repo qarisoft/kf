@@ -94,7 +94,7 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
         }),
     };
 
-    // console.log(pageData.data[0].content);
+    console.log(pageData.data);
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />
