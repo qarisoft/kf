@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/app-layout';
 import { Auth, type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
 // import SectionCards from '@/pages/test';
-import { IconTrendingUp } from '@tabler/icons-react';
+// import { IconTrendingUp } from '@tabler/icons-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -44,7 +44,7 @@ function SectionCards() {
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">$0.00</CardTitle>
                     <CardAction>
                         <Badge variant="outline">
-                            <IconTrendingUp />
+                            {/* <IconTrendingUp /> */}
                             +12.5%
                         </Badge>
                     </CardAction>
@@ -73,14 +73,15 @@ function SectionCards() {
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">45,678</CardTitle>
                     <CardAction>
                         <Badge variant="outline">
-                            <IconTrendingUp />
+                            {/* <IconTrendingUp /> */}
                             +12.5%
                         </Badge>
                     </CardAction>
                 </CardHeader>
                 <CardFooter className="flex-col items-start gap-1.5 text-sm">
                     <div className="line-clamp-1 flex gap-2 font-medium">
-                        Strong user retention <IconTrendingUp className="size-4" />
+                        Strong user retention 
+                        {/* <IconTrendingUp className="size-4" /> */}
                     </div>
                     <div className="text-muted-foreground">Engagement exceed targets</div>
                 </CardFooter>

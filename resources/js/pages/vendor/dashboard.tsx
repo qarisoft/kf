@@ -2,7 +2,7 @@ import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { Auth, type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/react';
-import { IconTrendingUp } from '@tabler/icons-react';
+// import { IconTrendingUp } from '@tabler/icons-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -43,7 +43,7 @@ function SectionCards() {
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">$0.00</CardTitle>
                     <CardAction>
                         <Badge variant="outline">
-                            <IconTrendingUp />
+                            {/* <IconTrendingUp /> */}
                             +12.5%
                         </Badge>
                     </CardAction>
@@ -72,7 +72,7 @@ function SectionCards() {
                     <CardTitle className="text-2xl font-semibold tabular-nums @[250px]/card:text-3xl">45</CardTitle>
                     <CardAction>
                         <Badge variant="outline">
-                            <IconTrendingUp />
+                            {/* <IconTrendingUp /> */}
                             +12.5%
                         </Badge>
                     </CardAction>
