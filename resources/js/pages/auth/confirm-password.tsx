@@ -28,6 +28,7 @@ export default function ConfirmPassword() {
             description="This is a secure area of the application. Please confirm your password before continuing."
         >
             <Head title="Confirm password" />
+            <div className="">dddddddddddddddddddddd</div>
 
             <form onSubmit={submit}>
                 <div className="space-y-6">

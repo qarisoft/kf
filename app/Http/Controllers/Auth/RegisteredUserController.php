@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Inertia\Inertia;
 use Inertia\Response;
-
+// use App\Models\User;
 class RegisteredUserController extends Controller
 {
     /**
@@ -20,7 +21,37 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('auth/register');
+        $u = User::Factory()->vendor()->make();
+        return Inertia::render('auth/register',['fake'=>$u]);
+    }
+    public function create_profile(): Response | RedirectResponse
+    {
+        if (request()->user()->hasProfile()){
+            return redirect()->route('dashboard');
+        }
+        $specialities  = Specialization::all();
+
+        return Inertia::render('auth/create-profile',['specialities'=>$specialities]);
+    }
+
+    public function store_profile(Request $request)
+    {
+        $profile = $request->user()->profile()->create([
+            'is_vendor'=>$request->is_vendor
+        ]);
+        if ($request->is_vendor){
+            $request->user()->vendor()->create([]);
+        }
+        $profile->specializations()->attach($request->specializations);
+
+        return redirect()->route('dashboard');
+
+//        dd($request->specialities);
+//        $specialities  = Specialization::all();
+
+
+
+//        return Inertia::render('auth/create-profile',['specialities'=>$specialities]);
     }
 
     /**
@@ -31,14 +62,18 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email'     => 'required|string|lowercase|email|max:255|unique:'.User::class,
+            'username' => 'required|string|lowercase|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'email' => $request->email,
+            'username'=>$request->username,
             'password' => Hash::make($request->password),
         ]);
 
@@ -46,6 +81,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        return to_route('profile.create');
     }
 }
