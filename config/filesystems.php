@@ -48,10 +48,10 @@ return [
         ],
         'media' => [
             'driver' => 'local',
-            'root'   => public_path('media'),
-            'url'    => env('APP_URL') . '/media',
+            'root'   => public_path('app-media'),
+            'url'    => env('APP_URL') . '/app-media',
             'visibility' => 'public',
-            // 'throw' => false,
+            'throw' => false,
         ],
         'images' => [
             'driver' => 'local',
