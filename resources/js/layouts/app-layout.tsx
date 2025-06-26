@@ -1,8 +1,9 @@
-import { type BreadcrumbItem, type SharedData,  SideBarProps2 } from '@/types';
+import { type BreadcrumbItem, type SharedData, SideBarProps2 } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { type ReactNode } from 'react';
 import AppLayoutTemplate from './sidebar/app-sidebar-layout';
 import { adminNav, customerNav, nullNav, vendorNav } from '@/config';
+import { Toaster } from 'sonner';
 
 interface AppLayoutProps {
     children: ReactNode;
@@ -24,6 +25,7 @@ export default function ({ children, breadcrumbs, ...props }: AppLayoutProps) {
     };
     return (
         <AppLayoutTemplate breadcrumbs={breadcrumbs} {...props} sideBarProps={sideBarProps_()}>
+            <Toaster richColors position='top-left' />
             {children}
         </AppLayoutTemplate>
     );

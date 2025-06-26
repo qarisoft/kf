@@ -8,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardAction, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { useLang } from '@/hooks/use-lang';
+import { useEcho, useEchoPresence } from '@laravel/echo-react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -18,7 +19,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function Dashboard() {
     const { url, props } = usePage<{ auth: Auth }>();
-    console.log(props);
+    // console.log(props);
+
+
+    useEcho(`App.Models.User.${props.auth.user.id}`,'ServiceCreated',(e)=>{
+        console.log(e);
+    })
+    useEchoPresence('services','ServiceCreated',(e)=>{
+        console.log('service created',e);
+    })
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

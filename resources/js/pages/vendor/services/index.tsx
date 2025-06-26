@@ -24,7 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 //     };
 // };
 export default function ServicesIndex({ pageData }: { pageData: PaginatedData<ServiceObj> }) {
-    console.log(pageData.data[0]);
+    // console.log(pageData.data[0]);
     const {t}=useLang()
 const columns: ColumnDef<ServiceObj>[] = [
     // selectColumn(),

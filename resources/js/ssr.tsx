@@ -3,7 +3,7 @@ import createServer from '@inertiajs/react/server';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import ReactDOMServer from 'react-dom/server';
 import { type RouteName, route } from 'ziggy-js';
-import { LaravelReactI18nProvider } from 'laravel-react-i18n';
+// import { LaravelReactI18nProvider } from 'laravel-react-i18n';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -26,13 +26,13 @@ createServer((page) =>
             /* eslint-enable */
 
             return (
-                <LaravelReactI18nProvider
-                    locale={'ar'}
-                    fallbackLocale={'ar'}
-                    files={import.meta.glob('/lang/*.json', { eager: true })}
-                >
+                // <LaravelReactI18nProvider
+                //     locale={'ar'}
+                //     fallbackLocale={'ar'}
+                //     files={import.meta.glob('/lang/*.json', { eager: true })}
+                // >
                     <App {...props} />
-                </LaravelReactI18nProvider>
+                // </LaravelReactI18nProvider>
             );
         },
     }),

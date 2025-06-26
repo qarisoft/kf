@@ -6,8 +6,11 @@ import DataTablePage, { makeColumn, selectColumn } from '@/components/data-table
 // import { Checkbox } from '@/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ColumnDef, Row } from '@tanstack/react-table';
+import { useEcho, useEchoModel, useEchoPresence, useEchoPublic } from '@laravel/echo-react';
+import { useCallback, useState } from 'react';
 // import { ReactNode } from 'react';
-
+import { toast } from 'sonner'
+import { useLang } from '@/hooks/use-lang';
 // type Service2 = WithTimeStamp<ServiceObj & { content: WithTimeStamp<ServiceContent> }>;
 type Service3 = WithTimeStamp<ServiceObj> & ServiceContent;
 type Service = WithTimeStamp<ServiceObj>;
@@ -45,23 +48,25 @@ function getColumns(): ColumnDef<Service3>[] {
                 return <div className="text-right">{formatted}</div>;
             },
         },
-        { k: 'main_image_url',h:'image',f:(row:Row<Service3>)=>{
-            const preview = row.original.media[0]?.preview_url
+        {
+            k: 'main_image_url', h: 'image', f: (row: Row<Service3>) => {
+                const preview = row.original.media[0]?.preview_url
 
-            return <div>
-                {preview&&(
+                return <div>
+                    {preview && (
 
 
-                <img
-                    width={100}
-                    src={row.original.media[0]?.preview_url??''}
-                    alt={'image'} />
-                )}
+                        <img
+                            width={100}
+                            src={row.original.media[0]?.preview_url ?? ''}
+                            alt={'image'} />
+                    )}
 
-            </div>
-            }},
+                </div>
+            }
+        },
         { k: 'hours' },
-        { k: 'youtube_url',h:'video' },
+        { k: 'youtube_url', h: 'video' },
         // { k: 'instructions' },
     ].map((k) => makeColumn(k));
 }
@@ -89,12 +94,33 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
                 id: content.id,
                 youtube_url: content.youtube_url,
                 instructions: content.instructions,
-                media:content.media
+                media: content.media
             };
         }),
     };
+    const [a, setA] = useState(0)
 
-    console.log(pageData.data);
+    // console.log(pageData.data);
+    // const a = useEcho('service.created','ServiceCreated',(e)=>{
+    //     console.log(e);
+    // })
+    // a.channel().subscribed(()=>{
+    //     console.log('sssssssssssssss');
+    // })
+
+
+    // const a2= useEchoPublic('hi','AnonymousEvent',(e)=>{
+    //     console.log('hi event:',e);
+    // })
+    const { __ } = useLang()
+    // useEchoModel('App.Models.Service.Service',)
+    const onServiceCreated = useCallback((e: { event: string }) => {
+        // console.log(e);
+        toast(__('Service Created'))
+    }, [])
+
+    useEchoPresence('admin-services', 'ServiceCreated', onServiceCreated)
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Dashboard" />

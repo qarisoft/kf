@@ -17,6 +17,11 @@ class User extends Authenticatable
 
     protected $with=['profile'];
 
+    public function isAdmin(): bool
+    {
+        return  $this->type==UserType::Admin;
+    }
+
     public function vendor():HasOne
     {
         return $this->hasOne(Vendor::class);

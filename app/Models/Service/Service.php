@@ -3,7 +3,9 @@
 namespace App\Models\Service;
 
 use App\Models\Vendor;
+use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Database\Eloquent\Attributes\Scope;
+use Illuminate\Database\Eloquent\BroadcastsEvents;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -16,7 +18,7 @@ class Service extends Model
     use HasFactory;
 
 
-    protected $with=['content'];
+    protected $with = ['content'];
     protected $fillable = [
         'service_content_id',
         'category_id'
@@ -32,16 +34,16 @@ class Service extends Model
 
     public function category(): BelongsTo
     {
-        return $this->belongsTo(ServiceCategory::class,'category_id');
+        return $this->belongsTo(ServiceCategory::class, 'category_id');
     }
 
     public function content(): BelongsTo
     {
-        return $this->belongsTo(ServiceContent::class,'service_content_id');
+        return $this->belongsTo(ServiceContent::class, 'service_content_id');
     }
     public function lastContent()
     {
-       return  $this->hasMany(ServiceContent::class)->latest()->limit(1);
+        return  $this->hasMany(ServiceContent::class)->latest()->limit(1);
     }
 
     public function contentHistory(): HasMany
@@ -57,7 +59,7 @@ class Service extends Model
     #[Scope]
     public function search(Builder $query, $search): Builder
     {
-        return $query->whereLike('name', '%'.$search.'%');
+        return $query->whereLike('name', '%' . $search . '%');
     }
 
 
@@ -67,4 +69,17 @@ class Service extends Model
 
         $this->save();
     }
+    // public function broadcastOn(string $event): array
+    // {
+    //     return [
+    //         new PresenceChannel('services')
+    //     ];
+    // }
+    // public function broadcastAs(string $event): string|null
+    // {
+    //     return match ($event) {
+    //         'created' => 'service.created',
+    //         default => null,
+    //     };
+    // }
 }

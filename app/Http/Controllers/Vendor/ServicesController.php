@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Vendor;
 
+use App\Events\ServiceCreated;
 use App\Http\Controllers\Controller;
 use App\Models\Service\Service;
 use App\Models\Service\ServiceCategory;
 use App\Models\Service\ServiceContent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -18,11 +20,18 @@ class ServicesController extends Controller
      */
 
 
-    private string $path='vendor/services';
+    private string $path = 'vendor/services';
     public function index(): Response
     {
-        return Inertia::render($this->path.'/index', [
-            'pageData'=>$this->scopeVendor(Service::query()->with(['category']))->paginate()
+
+        //        Broadcast::broadcast(['hi'],'event',[
+        //            'user'=>auth()->user(),
+        //        ]);
+        //        Broadcast::on('hi')->send();
+        // ServiceCreated::dispatch(Service::first());
+
+        return Inertia::render($this->path . '/index', [
+            'pageData' => $this->scopeVendor(Service::query()->with(['category']))->paginate()
         ]);
     }
 
@@ -31,9 +40,9 @@ class ServicesController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render($this->path.'/create', [
-            'categories'=>ServiceCategory::all(),
-            'service'=>ServiceContent::factory()->make()
+        return Inertia::render($this->path . '/create', [
+            'categories' => ServiceCategory::all(),
+            'service' => ServiceContent::factory()->make()
         ]);
     }
 
@@ -44,21 +53,21 @@ class ServicesController extends Controller
     {
 
         $request->validate([
-//            'main_image_url'=>'required|image',
-            'service_category_id'=>'required|exists:service_categories,id',
-            'title'=>'required|min:8',
-            'description'=>'required',
-            'price'=>'required',
-            'time'=>'required',
-            'time_unit'=>'required',
-            'instructions'=>'required',
+            //            'main_image_url'=>'required|image',
+            'service_category_id' => 'required|exists:service_categories,id',
+            'title' => 'required|min:8',
+            'description' => 'required',
+            'price' => 'required',
+            'time' => 'required',
+            'time_unit' => 'required',
+            'instructions' => 'required',
         ]);
 
         $user = $request->user();
 
-//        dd($user->vendor);
+        //        dd($user->vendor);
 
-        $imageName = time().'.'.$request->main_image_url?->extension();
+        $imageName = time() . '.' . $request->main_image_url?->extension();
 
         $request->main_image_url->move(public_path('images'), $imageName);
 
@@ -66,33 +75,26 @@ class ServicesController extends Controller
 
         if ($user->vendor()->exists()) {
 
-            $s=$user->vendor->services()->create([
-                'category_id'=>$request->service_category_id
+            $s = $user->vendor->services()->create([
+                'category_id' => $request->service_category_id
             ]);
 
-            $c=ServiceContent::create([
-//                'main_image_url'=>$imageName,
-                'title'=>$request->title,
-                'service_id'=>$s->id,
-                'price'=>$request->price,
-                'time'=>$request->time,
-                'time_unit'=>$request->time_unit,
-                'instructions'=>$request->instructions,
-                'youtube_url'=>$request->youtube_url,
-                'description'=>$request->description
+            $c = ServiceContent::create([
+                //                'main_image_url'=>$imageName,
+                'title' => $request->title,
+                'service_id' => $s->id,
+                'price' => $request->price,
+                'time' => $request->time,
+                'time_unit' => $request->time_unit,
+                'instructions' => $request->instructions,
+                'youtube_url' => $request->youtube_url,
+                'description' => $request->description
             ]);
-            $c->addMedia(public_path('images/'.$imageName))->toMediaCollection('services');
-            $s->update(['service_content_id'=>$c->id]);
-
-            return redirect()->route('vendor.services.show',['service'=>$s]);
-
+            $c->addMedia(public_path('images/' . $imageName))->toMediaCollection('services');
+            $s->update(['service_content_id' => $c->id]);
+            ServiceCreated::dispatch($s);
+            return redirect()->route('vendor.services.show', ['service' => $s]);
         }
-
-
-
-
-
-
     }
 
     /**
@@ -100,8 +102,8 @@ class ServicesController extends Controller
      */
     public function show(string $id)
     {
-        return Inertia::render($this->path.'/show', [
-            'service'=>Service::query()->findOrFail($id)
+        return Inertia::render($this->path . '/show', [
+            'service' => Service::query()->findOrFail($id)
         ]);
     }
 
@@ -112,9 +114,9 @@ class ServicesController extends Controller
     {
 
 
-        return Inertia::render($this->path.'/edit', [
-            'service'=>Service::query()->findOrFail($id),
-            'categories'=>ServiceCategory::query()->get()
+        return Inertia::render($this->path . '/edit', [
+            'service' => Service::query()->findOrFail($id),
+            'categories' => ServiceCategory::query()->get()
         ]);
     }
 
@@ -123,14 +125,14 @@ class ServicesController extends Controller
      */
     public function update(Request $request, string $id)
     {
-//        dd($request->file('main_image_url'));
-//        $request->validate([
-//            'title' => 'required',
-//            'description' => 'required',
-//            'main_image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-//        ]);
-//        $imageName = time().'.'.$request->main_image_url->extension();
-//        $request->main_image_url->move(public_path('images'), $imageName);
+        //        dd($request->file('main_image_url'));
+        //        $request->validate([
+        //            'title' => 'required',
+        //            'description' => 'required',
+        //            'main_image_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        //        ]);
+        //        $imageName = time().'.'.$request->main_image_url->extension();
+        //        $request->main_image_url->move(public_path('images'), $imageName);
 
 
     }
