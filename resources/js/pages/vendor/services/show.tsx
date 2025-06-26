@@ -28,14 +28,14 @@ export default function ServicesIndex({ service }: { service: Service }) {
                 <div className="">
                     <div className="flex gap-2 justify-between" >
 
-                    <div className="text-lg">{service.content.title}</div>
-                    <Button>{t('Edit')}</Button>
+                        <div className="text-lg">{service.content.title}</div>
+                        <Button>{t('Edit')}</Button>
 
                     </div>
 
                     <div className="py-2">
                         <div className="min-h-[125px] w-full rounded-lg bg-accent">
-                            <img src={`/images/${service.content.main_image_url}`} alt={''} />
+                            <img src={service.content.media[0].original_url} alt={''} />
                         </div>
                     </div>
                     <div className="mb-2 h-[1px] w-full bg-accent"></div>
