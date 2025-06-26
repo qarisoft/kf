@@ -28,3 +28,6 @@ frankenphp
 frankenphp-worker.php
 composer.lock
 package-lock.json
+public/app-media
+public/salah-media
+salah-media
