@@ -35,7 +35,7 @@ export default function ServicesIndex({ service }: { service: Service }) {
 
                     <div className="py-2">
                         <div className="min-h-[125px] w-full rounded-lg bg-accent">
-                            <img src={service.content.media[0].original_url} alt={''} />
+                            <img src={service.content.media[0]?.original_url} alt={''} />
                         </div>
                     </div>
                     <div className="mb-2 h-[1px] w-full bg-accent"></div>

@@ -69,7 +69,7 @@ class ServicesController extends Controller
 
         $imageName = time() . '.' . $request->main_image_url?->extension();
 
-        $request->main_image_url->move(public_path('images'), $imageName);
+        // $request->main_image_url->move(public_path('images'), $imageName);
 
 
 
@@ -90,7 +90,8 @@ class ServicesController extends Controller
                 'youtube_url' => $request->youtube_url,
                 'description' => $request->description
             ]);
-            $c->addMedia(public_path('images/' . $imageName))->toMediaCollection('services');
+            $c->addMediaFromRequest('main_image_url')->toMediaCollection('services');
+            // $c->addMedia(public_path('images/' . $imageName))->toMediaCollection('services');
             $s->update(['service_content_id' => $c->id]);
             ServiceCreated::dispatch($s);
             return redirect()->route('vendor.services.show', ['service' => $s]);

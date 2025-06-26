@@ -10,6 +10,7 @@ import { configureEcho } from '@laravel/echo-react';
 configureEcho({
     broadcaster: 'reverb',
     key: import.meta.env.VITE_REVERB_APP_KEY,
+    // host
 
     wsHost: import.meta.env.VITE_REVERB_HOST,
     wsPort: import.meta.env.VITE_REVERB_PORT,
@@ -38,7 +39,7 @@ createInertiaApp({
             //     import.meta.glob('/lang/*.json')
             //     }
             // >
-                <App {...props}  />
+            <App {...props} />
             // </LaravelReactI18nProvider>
         );
     },
