@@ -1,7 +1,7 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
-import { Auth, type BreadcrumbItem } from '@/types';
-import { Head, usePage } from '@inertiajs/react';
+import { type BreadcrumbItem } from '@/types';
+import { Head } from '@inertiajs/react';
 // import SectionCards from '@/pages/test';
 // import { IconTrendingUp } from '@tabler/icons-react';
 

@@ -1,14 +1,14 @@
 import Heading from '@/components/heading';
 import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
+// import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 import { useLang } from '@/hooks/use-lang';
 
-export default function SettingsLayout({ children ,navItems}: PropsWithChildren<{navItems:NavItem[]}>) {
-    const {t}  =useLang()
+export default function SettingsLayout({ children, navItems }: PropsWithChildren<{ navItems: NavItem[] }>) {
+    const { t } = useLang()
     // When server-side rendering, we only render the layout on the client...
     if (typeof window === 'undefined') {
         return null;

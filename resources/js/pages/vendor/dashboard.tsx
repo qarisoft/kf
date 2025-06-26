@@ -18,15 +18,15 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard() {
-    const { url, props } = usePage<{ auth: Auth }>();
+    const { props } = usePage<{ auth: Auth }>();
     // console.log(props);
 
 
-    useEcho(`App.Models.User.${props.auth.user.id}`,'ServiceCreated',(e)=>{
+    useEcho(`App.Models.User.${props.auth.user.id}`, 'ServiceCreated', (e) => {
         console.log(e);
     })
-    useEchoPresence('services','ServiceCreated',(e)=>{
-        console.log('service created',e);
+    useEchoPresence('services', 'ServiceCreated', (e) => {
+        console.log('service created', e);
     })
 
     return (
@@ -87,9 +87,9 @@ function SectionCards() {
                     </CardAction>
                 </CardHeader>
                 <CardFooter className="grid grid-cols-2 items-start gap-2 text-sm">
-                    <ServiceCardItem  title={'All'} value={45} />
-                    <ServiceCardItem  title={'Live'} value={4} />
-                    <ServiceCardItem  title={'Stop'} value={10} />
+                    <ServiceCardItem title={'All'} value={45} />
+                    <ServiceCardItem title={'Live'} value={4} />
+                    <ServiceCardItem title={'Stop'} value={10} />
 
 
                 </CardFooter>
@@ -98,15 +98,15 @@ function SectionCards() {
     );
 }
 
-function ServiceCardItem({title,value}:{title:string,value:string|number}) {
-    const {t} = useLang()
+function ServiceCardItem({ title, value }: { title: string, value: string | number }) {
+    const { t } = useLang()
     return (
         <div className="line-clamp-1 flex gap-2 font-medium">
             {t(title)}
             <span>
 
-                        {value}
-                        </span>
+                {value}
+            </span>
         </div>
     )
 }

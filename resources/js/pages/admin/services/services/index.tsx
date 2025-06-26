@@ -6,8 +6,8 @@ import DataTablePage, { makeColumn, selectColumn } from '@/components/data-table
 // import { Checkbox } from '@/components/ui/checkbox';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { ColumnDef, Row } from '@tanstack/react-table';
-import { useEcho, useEchoModel, useEchoPresence, useEchoPublic } from '@laravel/echo-react';
-import { useCallback, useState } from 'react';
+import { useEchoPresence } from '@laravel/echo-react';
+import { useCallback } from 'react';
 // import { ReactNode } from 'react';
 import { toast } from 'sonner'
 import { useLang } from '@/hooks/use-lang';
@@ -98,7 +98,7 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
             };
         }),
     };
-    const [a, setA] = useState(0)
+    // const [a, setA] = useState(0)
 
     // console.log(pageData.data);
     // const a = useEcho('service.created','ServiceCreated',(e)=>{
@@ -114,7 +114,7 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
     // })
     const { __ } = useLang()
     // useEchoModel('App.Models.Service.Service',)
-    const onServiceCreated = useCallback((e: { event: string }) => {
+    const onServiceCreated = useCallback(() => {
         // console.log(e);
         toast(__('Service Created'))
     }, [])

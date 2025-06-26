@@ -1,7 +1,7 @@
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { useLang } from '@/hooks/use-lang';
-import { useEcho } from '@laravel/echo-react';
+// import { useEcho } from '@laravel/echo-react';
 
 export default function Welcome() {
     const { auth } = usePage<SharedData>().props;

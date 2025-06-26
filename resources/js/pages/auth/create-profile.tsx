@@ -1,13 +1,10 @@
-import { Head, useForm, usePage } from '@inertiajs/react';
+import { Head, useForm } from '@inertiajs/react';
 import { LoaderCircle } from 'lucide-react';
-import { FormEventHandler, useCallback, useState } from 'react';
+import { FormEventHandler, useCallback } from 'react';
 
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import AuthLayout from '@/layouts/auth-layout';
-import { useLang } from '@/hooks/use-lang';
-import { Badge } from '@/components/ui/badge';
 import {
     DropdownMenu,
     DropdownMenuCheckboxItem,
@@ -16,21 +13,23 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Auth, SpecialityObject } from '@/types';
-import { DropdownMenuCheckboxItemProps } from '@radix-ui/react-dropdown-menu';
+import { Label } from '@/components/ui/label';
+import { useLang } from '@/hooks/use-lang';
+import AuthLayout from '@/layouts/auth-layout';
+import { SpecialityObject } from '@/types';
 
 type ProfileForm = {
     is_vendor: boolean;
     specialities: number[];
 };
-type Checked = DropdownMenuCheckboxItemProps['checked'];
+// type Checked = DropdownMenuCheckboxItemProps['checked'];
 
 export default function CreateProfile({ specialities }: { specialities: SpecialityObject[] }) {
     const { t } = useLang();
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     // console.log(specialities);
 
-    const { data, setData, post, processing, errors, reset } = useForm<Required<ProfileForm>>({
+    const { data, setData, post, processing } = useForm<Required<ProfileForm>>({
         is_vendor: false,
         specialities: [],
     });
@@ -57,8 +56,7 @@ export default function CreateProfile({ specialities }: { specialities: Speciali
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('profile.store'), {
-        });
+        post(route('profile.store'), {});
     };
 
     return (
@@ -114,7 +112,7 @@ export default function CreateProfile({ specialities }: { specialities: Speciali
                         {data.specialities.length > 0 && (
                             <div className="flex flex-wrap gap-2">
                                 {data.specialities.map((s) => (
-                                    <Badge variant={'outline'} className=""  key={`badge-${s}`}>
+                                    <Badge variant={'outline'} className="" key={`badge-${s}`}>
                                         {specialities.find((a) => a.id === s)?.name}
                                     </Badge>
                                 ))}
