@@ -49,7 +49,7 @@ return [
         'media' => [
             'driver' => 'local',
             'root'   => public_path('app-media'),
-            'url'    => env('APP_URL') . '/media',
+            'url'    => env('APP_URL') . '/app-media',
             'visibility' => 'public',
             'throw' => false,
         ],
