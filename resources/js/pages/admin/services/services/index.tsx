@@ -83,18 +83,19 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
         ...services,
         data: services.data.map((s) => {
             const content = s.content;
+
             return {
                 ...s,
-                title: content.title,
-                description: content.description,
-                price: content.price,
-                main_image_url: content.main_image_url,
-                hours: content.hours,
-                service_id: content.service_id,
-                id: content.id,
-                youtube_url: content.youtube_url,
-                instructions: content.instructions,
-                media: content.media
+                title: content?.title ?? '',
+                description: content?.description ?? '',
+                price: content?.price,
+                main_image_url: content?.main_image_url,
+                hours: content?.hours,
+                service_id: content?.service_id,
+                id: content?.id,
+                youtube_url: content?.youtube_url,
+                instructions: content?.instructions,
+                media: content?.media
             };
         }),
     };
