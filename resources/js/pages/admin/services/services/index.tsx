@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem, PaginatedData, ServiceContent, ServiceObj, WithTimeStamp } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 
 import DataTablePage, { makeColumn, selectColumn } from '@/components/data-table-page';
 // import { Checkbox } from '@/components/ui/checkbox';
@@ -117,6 +117,7 @@ export default function ServicesPage({ services }: ShareData & { services: Pagin
     // useEchoModel('App.Models.Service.Service',)
     const onServiceCreated = useCallback(() => {
         // console.log(e);
+        router.reload()
         toast(__('Service Created'))
     }, [])
 
